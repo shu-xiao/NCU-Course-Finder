@@ -1,0 +1,158 @@
+﻿* {
+	font-size: 16px;
+	box-sizing: border-box;
+}
+body {
+	padding: 10px;
+}
+th {
+	max-height: 50px !important;
+	font-weight: normal;
+}
+td {
+	padding: 5px !important;
+}
+.inline {
+	display: inline;
+}
+#ldiv {
+	float: left;
+	width: 35%;
+	margin: 0.25%;
+}
+#rdiv {
+	float: left;
+	width: 62%;
+}
+	
+#my_title {
+	height: 40px;
+	background-color: #F3F0DF;
+	text-align: center;
+}
+#my_footer {
+	height: 40px;
+	background-color: gold;
+	text-align: center;
+}
+#searching_table{
+	width: 100%;
+}
+#searching_table td.left {
+	text-align: center;
+	background-color: #F2F2F2;
+}
+#searching_table td.right {
+	background-color: #FFFFFF;
+}
+#searching_table td.center {
+	text-align: center;
+	background-color: #F0F0F0;
+}
+
+#schedule_table th {
+	text-align: center;
+	background-color: skyblue;
+}
+#schedule_table td {
+	text-align: center;
+	width: 3em;
+}
+#schedule_table td.head {
+	background-color: skyblue;
+}
+#schedule_table td.weekend {
+	background-color: pink;
+}
+#schedule_table tr.noon {
+	background-color: yellow;
+}
+#schedule_table tr.night {
+	background-color: cyan;
+}
+#schedule_table input[type="checkbox"] {
+	transform: scale(1.5);
+}
+
+#result_table {
+	width: 100%;
+	margin: 0.125%;
+	/*background-color: #EEEEEE;*/
+}
+#result_table th {
+	height: 40px;
+	text-align: center;
+	background-color: skyblue;
+}
+#result_table th.countval {
+	background-color: lightgreen;
+}
+#result_table tr.result_row {
+	background-color: #eeeeee;
+}
+#result_table tr.result_row.notavailable {
+	filter: brightness(0.9);
+}
+#result_table tr.result_row:hover {
+	filter: brightness(1.1);
+}
+#result_table tr.result_row td:hover .hovered-badge {
+	visibility: hidden;
+}
+#result_table tr.searching {
+	text-align: center;
+	background-color: pink;
+}
+#result_table tr.warning {
+	text-align: center;
+	background-color: orange;
+}
+
+.label-yellow-warning {
+    color: lightgray;
+    background-color: yellow;
+}
+
+.c_no {
+	width: 70px;
+}
+.c_name {
+	max-width: 250px;
+	/*min-width: 150px;*/
+}
+.c_teacher {
+	min-width: 55px;
+	width: 65px;
+}
+.c_sr {
+	min-width: 50px;
+	width: 50px;
+}
+.c_credit {
+	
+}
+.c_rw, .c_al {
+	min-width: 50px;
+}
+.c_succrate, .c_fullrate {
+	min-width: 50px;
+}
+.c_timevals {
+	max-width: 120px;
+}
+
+@media(max-width: 1200px) {
+	#ldiv {
+		width: 100%;
+		/* float: none; */
+		/* margin: auto; */
+	}
+	#rdiv {
+		width: 100%;
+	}
+}
+@media(max-width: 800px) {
+	.hovered-badge {
+		visibility: hidden;
+	}
+}

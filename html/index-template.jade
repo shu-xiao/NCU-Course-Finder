@@ -1,0 +1,304 @@
+﻿- var myTitle = "NCU Course Finder 2.0"
+doctype html
+html
+  head
+    //- UTF-8
+    meta(http-equiv="Content-Type",content="text/html; charset=utf-8")
+    meta(http-equiv="Cache-Control",content="no-cache")
+    meta(name="viewport",content="width=device-width, initial-scale=1")
+    //- Open Graph protocol
+    meta(property="og:title",content="#{myTitle}")
+    meta(property="og:type",content="website")
+    meta(property="og:url",content="http://web.cc.ncu.edu.tw/~102502560/course/")
+    //- jQuery 2.1.1
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+    //- BootStrap
+    link(rel="stylesheet",type="text/css",href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css",integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7",crossorigin="anonymous")
+    link(rel="stylesheet",type="text/css",href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css",integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r",crossorigin="anonymous")
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js", integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS",crossorigin="anonymous")
+    //- jQuery UI 1.12.0 # should came after Bootstrap!
+    script(src="https://code.jquery.com/ui/1.12.0/jquery-ui.js",integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=",crossorigin="anonymous")
+    link(rel="stylesheet",type="text/css",href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
+    //- Tablesorter
+    script(src="plugin/tablesorter/jquery.tablesorter.js")
+    script(src="plugin/tablesorter/jquery.tablesorter.pager.js")
+    link(rel="stylesheet",type="text/css",href="plugin/tablesorter/theme.default.css")
+    //- clipboard.js
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js")
+    //- Streamjs
+    //- script(src="streamjs/stream.js")
+    //- main js & css
+    script(src="js/script.js")
+    script(src="js/ga.js")
+    link(rel="stylesheet",type="text/css",href="css/style.css")
+
+    title= myTitle
+  body
+    div(style='position: absolute; top: 0; right: 0;')
+      | 今日上站人次: 
+      span#daily_count
+        | -
+      | 人
+    div#ldiv
+      table#searching_table(cellspacing='1',cellpadding='5',bgcolor='#DDDDDD')
+        tr
+          td#my_title(colspan='4')= myTitle
+        tr
+          td.center(colspan='4')
+            button.startSearch.btn.btn-default(disabled)
+              | 開始多重篩選
+        tr
+          td.left(style='min-width: 100px;') 選課相關資訊
+          td.right(style='min-width: 300px;',colspan='3')
+            span#annoinfo
+              | N/A
+        tr
+          td.left(style='min-width: 100px;') 資料更新日期
+          td.right(style='min-width: 300px;',colspan='3')
+            span#datatime
+              | N/A
+        tr
+          td.left 學院/系別
+          td.right(colspan='3')
+            span
+              select.form-control#colesel
+            span#deptdiv
+        tr
+          td.left
+            | 課程名稱
+            abbr(title="請以空白分隔，取反請在前面加上!(驚嘆號)，支援正規表達式")
+              small
+                | [?]
+          td.right(colspan='3')
+            div#search_name
+              input.form-control(style='float: left; width: calc(100% - 160px);',type='text',placeholder='請輸入關鍵字')
+              div(style='float: left; margin-left: 10px;')
+                label.radio-inline
+                  input(type='radio',name='name_opt',value='and',checked='')
+                  | AND
+                label.radio-inline
+                  input(type='radio',name='name_opt',value='or')
+                  | OR
+        tr
+          td.left
+            | 導師名稱
+            abbr(title="請以空白分隔，支援正規表達式，NOR為反向選擇")
+              small
+                | [?]
+          td.right(colspan='3')
+            div#search_teacher
+              input.form-control(style='float: left; width: calc(100% - 160px);',type='text',placeholder='請輸入關鍵字')
+              div(style='float: left; margin-left: 10px;')
+                label.radio-inline
+                  input(type='radio',name='teacher_opt',value='or',checked='')
+                  | OR
+                label.radio-inline
+                  input(type='radio',name='teacher_opt',value='nor')
+                  | NOR
+        tr
+          td.left 學分數
+          td.right(colspan='3')
+            div#filter_credit
+              each val in [0, 1, 2, 3, 4]
+                label.checkbox-inline
+                  input(type='checkbox',name='credit',value='#{val}',checked='')
+                  | #{val} &nbsp;
+        tr
+          td.left 必修/選修
+          td.right(colspan='3')
+            div#filter_require
+              label.radio-inline
+                input(type='radio',name='type',value='',checked='')
+                | 不篩選
+              label
+                | ｜
+              label.radio-inline
+                input(type='radio',name='type',value='required')
+                | 必修
+              label.radio-inline
+                input(type='radio',name='type',value='elective')
+                | 選修
+        tr
+          td.left
+            | 類別篩選
+            abbr(title="請注意！建議先將[學院/系別]設定為[不指定]，同時篩選[學院/系別]和[類別]可能會找不到結果！")
+              small
+                | [?]
+          td.right(colspan='3')
+            select.form-control#filter_category
+              option(value='',selected)
+                | 不篩選
+              option(value='CC')
+                | 核心通識(CC)
+              option(value='GS')
+                | 一般通識(GS)
+              option(value='LN')
+                | 語言/外文(LN)
+              option(value='PE')
+                | 體育課(PE)
+        tr
+          td.left 密碼卡
+          td.right(colspan='3')
+            div#filter_pwcard
+              label.radio-inline
+                input(type='radio',name='passwordCard',value='',checked='')
+                | 不篩選
+              label
+                | ｜
+              label.radio-inline
+                input(type='radio',name='passwordCard',value='no')
+                | 不使用
+              label.radio-inline
+                input(type='radio',name='passwordCard',value='optional')
+                | 可使用
+              label.radio-inline
+                input(type='radio',name='passwordCard',value='all')
+                | 必須
+        tr
+          td.left 學年
+          td.right(colspan='3')
+            div#filter_semester
+              label.radio-inline
+                input(type='radio',name='fullHalf',value='',checked='')
+                | 不篩選
+              label
+                | ｜
+              label.radio-inline
+                input(type='radio',name='fullHalf',value='half')
+                | 單學期
+              label.radio-inline
+                input(type='radio',name='fullHalf',value='full')
+                | 雙學期 (一年) 
+        //- tr
+        //-   td.left 使用語言
+        //-   td.right(colspan='3')
+        //-     select.form-control#langsel
+        tr
+          td.left 上課時段
+          td.right(colspan='3')
+            div#filter_schedule
+              table#schedule_table
+                thead
+                  tr
+                    th ＼
+                    each day in ['一', '二', '三', '四', '五', '六']
+                      th #{day}
+                tbody
+                  - var weekdays = [1,2,3,4,5,6];
+                  - var coursehours = [1,2,3,4,'Z',5,6,7,8,9,'A','B','C','D'];
+                  each ej in coursehours
+                    - var trclass = ''
+                    if ej === 'Z'
+                      - trclass = 'noon'
+                    if ej === 'A' || ej === 'B' || ej === 'C' || ej === 'D'
+                      - trclass = 'night'
+                    tr(class=trclass)
+                      td.head #{ej}
+                      each ei in weekdays
+                        - var tdclass = '';
+                        if ei === 6
+                          - tdclass = 'weekend'
+                        td(class="#{tdclass}")
+                          input(type='checkbox',value="#{ei}-#{ej}",disabled)
+              div(style='clear: left;')
+                | 過濾方法:
+                div.radio
+                  label
+                    input(type='radio',name='filter_mode',value='',checked='')
+                    | 全部 (不過濾)
+                div.radio
+                  label
+                    input(type='radio',name='filter_mode',value='include')
+                    | 包含該時段的項目
+                div.radio
+                  label
+                    input(type='radio',name='filter_mode',value='enclose')
+                    | 限定時段內項目
+                div.radio
+                  label
+                    input(type='radio',name='filter_mode',value='exclude')
+                    | 排除選取項目
+        tr
+          td.left 進階篩選
+          td.right(colspan='3')
+            div#extra_options
+              div.checkbox
+                label
+                  input(type='checkbox',name="extra",value='isNotFull')
+                  | 不搜尋目前已額滿的課程
+              div.checkbox
+                label
+                  input(type='checkbox',name="extra",value='isFirstRun')
+                  | 只搜尋初選時有開放的課程
+              //- br
+              //- input(type='checkbox',name="extra",value='isMasterDoctor')
+              //- | 只搜尋碩士班或博士班的課程
+              //- br
+              //- input(type='checkbox',name="extra",value='isPreSelect')
+              //- | 只搜尋由系統自動加選的課程
+              //- br
+              //- input(type='checkbox',name="extra",value='isClosed')
+              //- | 只搜尋已關閉或取消的課程
+        tr
+          td.left(colspan='1')
+            | 搜尋連結
+            abbr(title="複製本連結之後，下次使用可以自動填入目前的搜尋條件！")
+              small
+                | [?]
+          td.right(colspan='3')
+            div.input-group
+              input.form-control(type="text",id="share_link",value="N/A",aria-label="...")
+              div.input-group-btn
+                button.btn.btn-default.clipboard-btn(data-clipboard-target="#share_link")
+                  | 複製
+        tr
+          td(colspan='4')#my_footer
+            | Powered by the <a href='javascript: void(0);'>Mighty Monkey Warrior</a>
+    div#rdiv
+      div#pager(align='center')
+        button.first
+          | 第一頁
+        button.prev
+          |  上一頁
+        span.pagedisplay
+        //- this can be any element, including an input
+        button.next
+          | 下一頁
+        button.last
+          |  最末頁
+        |  每頁顯示  
+        select.pagesize
+          option(value='50') 50
+          option(value='100') 100
+          option(value='250') 200
+          option(value='500') 500
+          option(value='all') 全部
+        |  筆
+      table.tablesorter#result_table
+        thead
+          tr#result_head
+            th.c_no
+              | 課號
+            th.c_name
+              | 課程名稱
+            th.c_teacher
+              | 導師
+            th.c_sr
+              | 選/必
+            th.c_credit
+              | 學分
+            th.c_rw.countval
+              | 餘額/待選
+            th.c_succrate.countval
+              | 中選率
+              abbr(title="※注意：此為待選者的粗估當前中選率，並沒有將志願序列入考慮，僅作為參考用，實際機率會依各學生的志願序而有不同。")
+                small
+                  | [?]
+            th.c_al.countval
+              | 已選/總額
+            th.c_fullrate.countval
+              | 飽和度
+            th.c_timevals.timevals
+              | 上課時段
+        tbody
+    div#disclaimer(style='display: hidden;')
